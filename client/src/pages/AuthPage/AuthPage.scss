@@ -1,0 +1,53 @@
+h3 {
+  text-align: center;
+}
+
+input {
+  padding: 5px 10px !important;
+}
+
+a {
+  display: block;
+}
+
+button {
+  margin-right: 1rem;
+}
+
+.group-buttons {
+  width: fit-content;
+  display: flex;
+  align-items: center;
+  margin: 0 auto;
+}
+.role-block {
+  display: flex;
+  width: 35%;
+  justify-content: space-between;
+  margin: 0 auto;
+  align-items: center;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:after {
+  background-color: #ff9800;
+}
+
+[type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+  border: 2px solid #ff9800;
+}
+
+.role-title {
+  margin-bottom: 50px;
+}
+
+.role-group-radio {
+  margin-bottom: 50px;
+}
+
+.btn {
+  margin-right: 1rem;
+}
+
+.role-page {
+  margin-top: 13rem;
+}

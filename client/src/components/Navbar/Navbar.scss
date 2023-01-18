@@ -1,0 +1,10 @@
+.navbar {
+  background: linear-gradient(90deg, rgba(255,82,2,1) 0%, rgba(255,156,40,1) 35%, rgba(255,119,40,1) 100%);
+  padding: 0px 30px 0 30px;
+  .brand-logo {
+    display: flex;
+    align-items: center;
+    width: 83px;
+    font-size: 26px;
+  }
+}
