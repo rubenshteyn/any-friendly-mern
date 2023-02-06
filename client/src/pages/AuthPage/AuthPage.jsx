@@ -42,7 +42,7 @@ function AuthPage() {
                 }
             })
                 .then(response => {
-                    login(response.data.token, response.data.userId)
+                    login(response.data.token, response.data.userId, response.data.role)
                 })
         } catch (e) {
             console.log(e)

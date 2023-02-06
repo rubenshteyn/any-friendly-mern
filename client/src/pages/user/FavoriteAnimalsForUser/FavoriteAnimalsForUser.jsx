@@ -1,17 +1,19 @@
 import React, {useState, useContext, useCallback, useEffect} from 'react';
-import './MainPage.scss'
+import './FavoriteAnimalsForUser.scss'
 import axios from "axios";
-import {AuthContext} from "../../context/AuthContext";
-import CreateAnimal from "../../components/modals/CreateAnimal/CreateAnimal";
-import ChangeAnimal from "../../components/modals/ChangeAnimal/ChangeAnimal";
+import {AuthContext} from "../../../context/AuthContext";
+import ChangeAnimal from "../../../components/modals/ChangeAnimal/ChangeAnimal";
+import {Switch, Route, Redirect, Link} from "react-router-dom";
+import MainPage from "../../volunteer/MainPage/MainPage";
 
 
-function MainPage() {
+function FavoriteAnimalsForUser() {
     const {userId, role} = useContext(AuthContext)
     const [animals, setAnimals] = useState([])
     const [animalsForUsers, setAnimalsForUsers] = useState([])
     const [currentUser, setCurrentUser] = useState([])
     const [isModalCreate, setModalСreate] = React.useState(false);
+
     const [isModalChangeInfo, setModalChange] = React.useState({
         isModalChange: false,
         setAnimal: 0
@@ -34,7 +36,7 @@ function MainPage() {
 
     const getAnimalForUsers = useCallback(async () => {
         try {
-            await axios.get('/api/animal/forUsers', {
+            await axios.get('/api/animal/allAnimals', {
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -68,28 +70,14 @@ function MainPage() {
         getCurrentUser()
     }, [getAnimal, getAnimalForUsers, getCurrentUser])
 
-
     return (
         <div onLoad={getAnimal} className="container">
                 <div>
-                    <CreateAnimal
-                        isVisible={isModalCreate}
-                        title="Создание объявления"
-                        onClose={() => setModalСreate(false)}
-                    />
-                    <ChangeAnimal
-                        isVisible={isModalChangeInfo.isModalChange}
-                        animal={isModalChangeInfo.setAnimal}
-                        title="Редактирование объявления"
-                        onClose={() => setModalChange({isModalChange: false, setAnimal: 0})
-                        }
-                    />
                     <div className="main-page">
-                        <h3>Список ваших животных:</h3>
+                        <h3>Список избранных животных:</h3>
                         <div className="header-list">
-                            <button className="waves-effect add waves-light btn orange"
-                                    onClick={() => setModalСreate(true)}>Создать
-                                объявление
+                            <button className="waves-effect add waves-light btn orange">
+                                <Link to="/catalog">Перейти к каталогу</Link>
                             </button>
                         </div>
                         <div onLoad={getAnimal} className="animals">
@@ -137,4 +125,4 @@ function MainPage() {
     );
 }
 
-export default MainPage;
+export default FavoriteAnimalsForUser;

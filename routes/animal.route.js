@@ -55,7 +55,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get('/forUsers', async (req, res) => {
+router.get('/allAnimals', async (req, res) => {
     try {
         const animal = await Animal.find()
         res.json(animal)

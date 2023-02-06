@@ -101,6 +101,7 @@ function Navbar() {
                     isLogin
                         ?<ul id="nav-mobile" className="right hide-on-med-and-down">
                                 <li><Link to="/">Каталог</Link></li>
+                                <li><Link to="/favorites">Избранные</Link></li>
                                 <li><Link onClick={logout} to="/login">Выйти</Link></li>
                             </ul>
                         :<ul id="nav-mobile" className="right hide-on-med-and-down"><li><Link to="/login">Войти</Link></li></ul>
