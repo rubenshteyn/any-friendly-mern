@@ -46,10 +46,28 @@ function AnimalCatalog() {
         }
     }, [userId])
 
+    const addFavoriteAnimal = useCallback(async (animalId) => {
+        try {
+            await axios.post('/api/auth/addFavorite', {userId, animalId}, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then((response) => {
+                    setAllAnimals([...animals], response.data)
+                    setCurrentUser('')
+                    getAllAnimals()
+                })
+        } catch (e) {
+            console.log(e)
+        }
+    }, [userId, animals, getAllAnimals])
+
     useEffect(() => {
         getAllAnimals()
         getCurrentUser()
     }, [getAllAnimals, getCurrentUser])
+
     return (
         <div onLoad={getAllAnimals} className="container">
                 <div>
@@ -80,13 +98,17 @@ function AnimalCatalog() {
                                         <div className="card-image">
                                             <img src={animal.img}></img>
                                             <span className="card-title">{animal.name}</span>
-                                            <button onClick={() => setModalDescription({
-                                                isModalDescription: true,
-                                                setAnimal: animal
-                                            })
-                                            }
-                                                    className="btn-floating halfway-fab waves-effect waves-light orange">
-                                                <i className="material-icons">open_in_new</i>
+                                            {/*<button onClick={() => setModalDescription({*/}
+                                            {/*    isModalDescription: true,*/}
+                                            {/*    setAnimal: animal*/}
+                                            {/*})*/}
+                                            {/*}*/}
+                                            {/*        className="btn-floating halfway-fab waves-effect waves-light orange">*/}
+                                            {/*    <i className="material-icons">open_in_new</i>*/}
+                                            {/*</button>*/}
+                                            <button onClick={()=> addFavoriteAnimal(animal._id)}
+                                                    className="btn-floating halfway-fab waves-effect waves-light red">
+                                                <i className="material-icons">whatshot</i>
                                             </button>
                                         </div>
                                         <div className="card-content">

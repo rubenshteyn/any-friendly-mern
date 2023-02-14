@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Animal = require("../models/Animals");
 
+// user router
 router.get('/currentUser', async (req, res) => {
     try {
         const { userId } = req.query
@@ -16,6 +17,20 @@ router.get('/currentUser', async (req, res) => {
     }
 })
 
+router.post('/addFavorite', async(req, res) => {
+    try {
+        const user = await User.findOne({_id: req.params.id})
+        const {animalId} = req.body
+        user.favoriteAnimals.push(animalId)
+        await user.save()
+        console.log(user)
+        res.json(user)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
+// auth router
 router.post('/registration',
     [
         check('email', 'Некорректный email').isEmail(),

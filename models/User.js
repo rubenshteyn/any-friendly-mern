@@ -5,7 +5,8 @@ const schema = new Schema({
     password: {type: String, required: true},
     name: {type: String, required: true},
     role: {type: String, required: true},
-    animals: [{type: Types.ObjectId, ref: 'Animal'}]
+    animals: [{type: Types.ObjectId, ref: 'Animal'}],
+    favoriteAnimals: [{type: Types.ObjectId, ref: 'Animal'}]
 })
 
 module.exports = model('User', schema)
