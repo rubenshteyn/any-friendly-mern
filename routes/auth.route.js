@@ -19,12 +19,46 @@ router.get('/currentUser', async (req, res) => {
 
 router.post('/addFavorite', async(req, res) => {
     try {
-        const user = await User.findOne({_id: req.params.id})
-        const {animalId} = req.body
+        const {animalId, userId} = req.body
+        const user = await User.findOne({_id: userId})
+        const animal = await Animal.findOne({_id: animalId})
+
+        animal.liked.push(userId)
         user.favoriteAnimals.push(animalId)
+
+        await animal.save()
         await user.save()
-        console.log(user)
+
+        console.log(user, animal)
         res.json(user)
+        res.json(animal)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
+router.post('/deleteFavorite', async(req, res) => {
+    try {
+        const {animalId, userId} = req.body
+        const user = await User.findOne({_id: userId})
+        const animal = await Animal.findOne({_id: animalId})
+
+        let removedUser = animal.liked.indexOf(userId);
+        if(removedUser >= 0) {
+            animal.liked.splice(removedUser,1);
+        }
+
+        let removedAnimal = user.favoriteAnimals.indexOf(animalId);
+        if(removedAnimal >= 0) {
+            user.favoriteAnimals.splice(removedAnimal,1);
+        }
+
+        await animal.save()
+        await user.save()
+
+        console.log(user, animal)
+        res.json(user)
+        res.json(animal)
     } catch (e) {
         console.log(e)
     }

@@ -2,10 +2,11 @@ const {Router} = require('express')
 const router = Router()
 const Animal = require('../models/Animals')
 const {Types} = require("mongoose");
+const User = require("../models/User");
 
 router.post('/add', async(req, res) => {
     try {
-        const {text, name, gender, img, age, kind, vaccinations, userId} = req.body
+        const {text, name, gender, img, age, kind, vaccinations, userId, liked} = req.body
 
         const animal = await new Animal({
             text,
@@ -15,7 +16,8 @@ router.post('/add', async(req, res) => {
             age,
             kind,
             vaccinations,
-            img
+            img,
+            liked
         })
         await animal.save()
         res.json(animal)
@@ -63,6 +65,17 @@ router.get('/allAnimals', async (req, res) => {
         console.log(e)
     }
 })
+
+router.get('/favoriteAnimals', async (req, res) => {
+    try {
+        const { userId } = req.query
+        const animal = await Animal.find({liked: userId})
+        res.json(animal)
+    } catch (e) {
+        console.log(e)
+    }
+})
+
 router.delete('/delete/:id', async (req, res) => {
     try {
         const animal = await Animal.findOneAndDelete({_id: req.params.id})

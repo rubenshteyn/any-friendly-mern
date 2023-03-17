@@ -8,7 +8,8 @@ const schema = new Schema({
     kind: {type: String},
     text: {type: String},
     vaccinations: {type: Boolean},
-    img: {type: String}
+    img: {type: String},
+    liked: [{type: Types.ObjectId, ref: 'User'}]
 })
 
 module.exports = model('Animal', schema)

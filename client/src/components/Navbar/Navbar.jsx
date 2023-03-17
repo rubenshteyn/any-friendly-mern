@@ -7,7 +7,7 @@ function Navbar() {
     return (
         <nav>
             <div className="nav-wrapper navbar green">
-                <a className="brand-logo">
+                <Link to="/" className="brand-logo">
                     <svg viewBox="0 0 210 161" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g filter="url(#filter0_i_12_55)">
                             <g filter="url(#filter1_i_12_55)">
@@ -96,11 +96,11 @@ function Navbar() {
                             </clipPath>
                         </defs>
                     </svg>
-                </a>
+                </Link>
                 {
                     isLogin
                         ?<ul id="nav-mobile" className="right hide-on-med-and-down">
-                                <li><Link to="/">Каталог</Link></li>
+                                <li><Link to="/catalog">Каталог</Link></li>
                                 <li><Link to="/favorites">Избранные</Link></li>
                                 <li><Link onClick={logout} to="/login">Выйти</Link></li>
                             </ul>

@@ -5,7 +5,7 @@ import {AuthContext} from "../../../context/AuthContext";
 import CreateAnimal from "../../../components/modals/CreateAnimal/CreateAnimal";
 import ChangeAnimal from "../../../components/modals/ChangeAnimal/ChangeAnimal";
 import {Switch, Route, Redirect} from "react-router-dom";
-import FavoriteAnimalsForUser from "../../user/FavoriteAnimalsForUser/FavoriteAnimalsForUser";
+import FavoriteAnimalsForUser from "../../FavoriteAnimals/FavoriteAnimals";
 
 
 function MainPage() {
