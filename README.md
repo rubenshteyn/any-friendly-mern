@@ -7,7 +7,7 @@ Stack: Mongodb, Express, React, Node
 ![Image alt](https://github.com/rubenshteyn/any-friendly-mern/blob/main/client/src/media/list.png)
 ![Image alt](https://github.com/rubenshteyn/any-friendly-mern/blob/main/client/src/media/login.png)
 ![Image alt](https://github.com/rubenshteyn/any-friendly-mern/blob/main/client/src/media/regFirstStep.png)
-![Image alt](https://github.com/rubenshteyn/any-friendly-mern/blob/main/client/src/media/reSecondStep.png)
+![Image alt](https://github.com/rubenshteyn/any-friendly-mern/blob/main/client/src/media/regSecondStep.png)
 
 ## Project setup
 npm install
