@@ -39,7 +39,7 @@ router.post('/change/:id', async(req, res) => {
         animal.age = age
         animal.vaccinations = vaccinations
         animal.kind = kind
-
+        console.log(animal)
         await animal.save()
         res.json(animal)
     } catch (e) {
