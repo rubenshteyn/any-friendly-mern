@@ -4,3 +4,7 @@
     box-sizing: border-box;
     font-family: 'Montserrat', sans-serif;
 }
+
+.input-field>label {
+    top: -4px !important;
+}

@@ -1,9 +1,9 @@
-import './App.scss';
-import Navbar from "./components/Navbar/Navbar";
+import './App.css';
+import Navbar from "./components/UI/Navbar/Navbar";
 import {BrowserRouter} from "react-router-dom";
 import {useRoutes} from './routes'
 import {AuthContext} from "./context/AuthContext";
-import {useAuth} from "./hooks/auth.hook";
+import {useAuth} from "./hooks/useAuth";
 
 
 function App() {

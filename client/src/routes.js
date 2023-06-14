@@ -5,8 +5,6 @@ import AuthPage from "./pages/AuthPage/AuthPage";
 import AnimalCatalog from "./pages/AnimalCatalog/AnimalCatalog";
 import FavoriteAnimals from "./pages/FavoriteAnimals/FavoriteAnimals";
 
-
-
 export const useRoutes = (isLogin, role) => {
     if(isLogin && role === "user") {
         return (

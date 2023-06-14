@@ -4,19 +4,19 @@ import axios from "axios";
 import {AuthContext} from "../../../context/AuthContext";
 
 function CreateAnimal({isVisible = false, title, onClose}) {
-    const keydownHandler = ({key}) => {
-        switch (key) {
-            case 'Escape':
-                onClose();
-                break;
-            default:
-        }
-    };
-
-    React.useEffect(() => {
-        document.addEventListener('keydown', keydownHandler);
-        return () => document.removeEventListener('keydown', keydownHandler);
-    });
+    // const keydownHandler = ({key}) => {
+    //     switch (key) {
+    //         case 'Escape':
+    //             onClose();
+    //             break;
+    //         default:
+    //     }
+    // };
+    //
+    // React.useEffect(() => {
+    //     document.addEventListener('keydown', keydownHandler);
+    //     return () => document.removeEventListener('keydown', keydownHandler);
+    // });
 
     const [text, setText] = useState('')
     const [name, setName] = useState('')
@@ -27,7 +27,7 @@ function CreateAnimal({isVisible = false, title, onClose}) {
     const [img, setImg] = useState('')
     const {userId, role} = useContext(AuthContext)
     const [animals, setAnimals] = useState([])
-
+    console.log(animals)
     const getAnimal = useCallback(async () => {
         try {
             await axios.get('/api/animal', {
@@ -65,15 +65,7 @@ function CreateAnimal({isVisible = false, title, onClose}) {
             console.log(e)
         }
     }, [text, userId, name, img, gender, age, kind, vaccinations, animals, getAnimal])
-    // const removeAnimal = useCallback(async (id) => {
-    //     try {
-    //         await axios.delete(`/api/animal/delete/${id}`, {id}, {
-    //             headers: {'Content-Type': 'application/json'}
-    //         }).then(() => getAnimal())
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }, [getAnimal])
+
     const addFavoriteAnimal = useCallback(async (id) => {
         try {
             await axios.put(`/api/animal/completed/${id}`, {id}, {
@@ -86,18 +78,6 @@ function CreateAnimal({isVisible = false, title, onClose}) {
             console.log(e)
         }
     }, [getAnimal, animals])
-    // const changeAnimal = useCallback(async (id) => {
-    //     try {
-    //         await axios.put(`/api/todo/important/${id}`, {id}, {
-    //             headers: {'Content-Type': 'application/json'}
-    //         }).then((response) => {
-    //             setAnimals([...animals], response.data)
-    //             getAnimal()
-    //         })
-    //     } catch (e) {
-    //         console.log(e)
-    //     }
-    // }, [getAnimal, animals])
 
     useEffect(() => {
         getAnimal()

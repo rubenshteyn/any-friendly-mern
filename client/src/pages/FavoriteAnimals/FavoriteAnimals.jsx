@@ -1,71 +1,42 @@
 import React, {useState, useContext, useCallback, useEffect} from 'react';
-import './FavoriteAnimals.scss'
+import './FavoriteAnimals.css'
 import axios from "axios";
 import {AuthContext} from "../../context/AuthContext";
-import ChangeAnimal from "../../components/modals/ChangeAnimal/ChangeAnimal";
 import {Switch, Route, Redirect, Link} from "react-router-dom";
-import MainPage from "../volunteer/MainPage/MainPage";
+import {useFetching} from "../../hooks/useFetching";
+import AnimalService from "../../api/AnimalService";
+import AddFavoriteAnimal from "../../api/AddFavoriteAnimal";
+import DeleteFavoriteAnimal from "../../api/DeleteFavoriteAnimal";
 
 
 function FavoriteAnimals() {
     const {userId, role} = useContext(AuthContext)
     const [animals, setFavoriteAnimals] = useState([])
-    const [currentUser, setCurrentUser] = useState([])
 
-    const getFavoriteAnimals = useCallback(async () => {
-        try {
-            await axios.get('/api/animal/favoriteAnimals', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: {userId, role}
-            })
-                .then((response) => setFavoriteAnimals(response.data))
-        } catch (e) {
-            console.log(e)
-        }
-        console.log(animals)
-    }, [userId, role])
+    const [fetchAnimals, isAnimalsLoading, postError] = useFetching(async () => {
+        const response = await AnimalService.getAll(userId, role, "favoriteAnimals")
+        setFavoriteAnimals(response.data)
+    })
 
-    const getCurrentUser = useCallback(async () => {
-        try {
-            await axios.get('/api/auth/currentUser', {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                params: {userId}
-            })
-                .then((response) => setCurrentUser(response.data))
-        } catch (e) {
-            console.log(e)
-        }
-        console.log(currentUser)
-    }, [userId])
-
-    const deleteFavoriteAnimal = useCallback(async (animalId) => {
-        console.log(animalId)
-        try {
-            await axios.post('/api/auth/deleteFavorite', {userId, animalId}, {
-                headers: {
-                    'Content-Type': 'application/json'
+    const deleteFavorite = useCallback(async (animalId) => {
+        const response = await DeleteFavoriteAnimal.deleteAnimal(userId, animalId)
+        console.log(response)
+        if(response.data) {
+            setFavoriteAnimals([...animals].filter(animal => {
+                if(animal._id !== animalId) {
+                    return animal
                 }
-            })
-                .then((response) => {
-                    setFavoriteAnimals(response.data)
-                    setCurrentUser('')
-                })
-        } catch (e) {
-            console.log(e)
+            }))
         }
-    }, [userId, animals, setFavoriteAnimals])
+    }, [userId, animals, fetchAnimals])
+
 
     useEffect(() => {
-        getFavoriteAnimals()
-        getCurrentUser()
-    }, [getFavoriteAnimals, getCurrentUser])
+        fetchAnimals()
+    }, [])
 
     return (
-        <div onLoad={getFavoriteAnimals} className="container">
+        <div className="container">
                 <div>
                     <div className="main-page">
                         <h3>Список избранных животных:</h3>
@@ -74,14 +45,14 @@ function FavoriteAnimals() {
                                 <Link to="/catalog">Перейти к каталогу</Link>
                             </button>
                         </div>
-                        <div onLoad={getFavoriteAnimals} className="animals">
+                        <div className="animals">
                             {animals.length > 0 && animals.map((animal, index) => {
                                 return (
                                     <div className="card" key={index}>
                                         <div className="card-image">
                                             <img src={animal.img}></img>
                                             <span className="card-title">{animal.name}</span>
-                                            <button onClick={()=> deleteFavoriteAnimal(animal._id)}
+                                            <button onClick={()=> deleteFavorite(animal._id)}
                                                     className="btn-floating halfway-fab waves-effect waves-light red">
                                                 <i className="material-icons">remove_circle</i>
                                             </button>

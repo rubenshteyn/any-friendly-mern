@@ -22,6 +22,7 @@ router.post('/addFavorite', async(req, res) => {
         const {animalId, userId} = req.body
         const user = await User.findOne({_id: userId})
         const animal = await Animal.findOne({_id: animalId})
+        console.log(animal, req.body)
 
         animal.liked.push(userId)
         user.favoriteAnimals.push(animalId)
@@ -52,12 +53,9 @@ router.post('/deleteFavorite', async(req, res) => {
         if(removedAnimal >= 0) {
             user.favoriteAnimals.splice(removedAnimal,1);
         }
-
         await animal.save()
         await user.save()
 
-        console.log(user, animal)
-        res.json(user)
         res.json(animal)
     } catch (e) {
         console.log(e)

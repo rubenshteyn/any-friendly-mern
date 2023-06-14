@@ -1,5 +1,5 @@
 import React, {useState, useContext, useCallback, useEffect} from 'react';
-import './MainPage.scss'
+import './MainPage.css'
 import axios from "axios";
 import {AuthContext} from "../../../context/AuthContext";
 import CreateAnimal from "../../../components/modals/CreateAnimal/CreateAnimal";
@@ -15,10 +15,12 @@ function MainPage() {
     const [currentUser, setCurrentUser] = useState([])
     const [isModalCreate, setModalСreate] = React.useState(false);
 
-    const [isModalChangeInfo, setModalChange] = React.useState({
+    const [isModalChangeInfo, setModalChange] = useState({
         isModalChange: false,
-        setAnimal: 0
+        currentDataAnimal: {}
     });
+
+    console.log(isModalChangeInfo)
 
     const getAnimal = useCallback(async () => {
         try {
@@ -67,9 +69,7 @@ function MainPage() {
 
     useEffect(() => {
         getAnimal()
-        getAnimalForUsers()
-        getCurrentUser()
-    }, [getAnimal, getAnimalForUsers, getCurrentUser])
+    }, [getAnimal])
     if (animals.length === 0) {
         return (
             <div onLoad={getAnimal} className="container">
@@ -102,9 +102,9 @@ function MainPage() {
                 />
                 <ChangeAnimal
                     isVisible={isModalChangeInfo.isModalChange}
-                    animal={isModalChangeInfo.setAnimal}
+                    animal={isModalChangeInfo.currentDataAnimal}
                     title="Редактирование объявления"
-                    onClose={() => setModalChange({isModalChange: false, setAnimal: 0})
+                    onClose={() => setModalChange({isModalChange: false, currentDataAnimal: {}})
                     }
                 />
                 <div className="main-page">
@@ -128,7 +128,7 @@ function MainPage() {
                                         <span className="card-title">{animal.name}</span>
                                         <button onClick={() => setModalChange({
                                             isModalChange: true,
-                                            setAnimal: animal
+                                            currentDataAnimal: animal
                                         })
                                         }
                                                 className="btn-floating halfway-fab waves-effect waves-light orange">

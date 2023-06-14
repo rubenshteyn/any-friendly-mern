@@ -2,12 +2,22 @@
 input:focus {
   border-bottom: 1px solid #ff9800 !important;
   color: #000000 !important;
+  box-shadow: 0 1px 0 #ff9800 !important;
 }
 
 input:focus + label {
   color: #ff9800 !important;
 }
 
+input:active {
+  border-bottom: 1px solid #ff9800 !important;
+  box-shadow: 0 1px 0 #ff9800 !important;
+}
+
 .gradient {
   background: linear-gradient(90deg, rgb(255, 82, 2) 0%, rgb(255, 156, 40) 35%, rgb(255, 119, 40) 100%);
+}
+
+body {
+  cursor: url('./media/lapki.svg'),auto;
 }
