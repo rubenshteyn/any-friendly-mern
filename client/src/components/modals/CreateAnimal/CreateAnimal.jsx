@@ -2,21 +2,11 @@ import React, {useState, useContext, useCallback, useEffect} from 'react';
 import './CreateAnimal.scss'
 import axios from "axios";
 import {AuthContext} from "../../../context/AuthContext";
+import MyInput from "../../UI/MyInput/MyInput";
+import MyButton from "../../UI/MyButton/MyButton";
+import MyRadio from "../../UI/MyRadio/MyRadio";
 
 function CreateAnimal({isVisible = false, title, onClose}) {
-    // const keydownHandler = ({key}) => {
-    //     switch (key) {
-    //         case 'Escape':
-    //             onClose();
-    //             break;
-    //         default:
-    //     }
-    // };
-    //
-    // React.useEffect(() => {
-    //     document.addEventListener('keydown', keydownHandler);
-    //     return () => document.removeEventListener('keydown', keydownHandler);
-    // });
 
     const [text, setText] = useState('')
     const [name, setName] = useState('')
@@ -27,7 +17,7 @@ function CreateAnimal({isVisible = false, title, onClose}) {
     const [img, setImg] = useState('')
     const {userId, role} = useContext(AuthContext)
     const [animals, setAnimals] = useState([])
-    console.log(animals)
+
     const getAnimal = useCallback(async () => {
         try {
             await axios.get('/api/animal', {
@@ -41,6 +31,7 @@ function CreateAnimal({isVisible = false, title, onClose}) {
             console.log(e)
         }
     }, [userId, role])
+
     const createAnimal = useCallback(async () => {
         if (!text) return null
         try {
@@ -66,22 +57,10 @@ function CreateAnimal({isVisible = false, title, onClose}) {
         }
     }, [text, userId, name, img, gender, age, kind, vaccinations, animals, getAnimal])
 
-    const addFavoriteAnimal = useCallback(async (id) => {
-        try {
-            await axios.put(`/api/animal/completed/${id}`, {id}, {
-                headers: {'Content-Type': 'application/json'}
-            }).then((response) => {
-                setAnimals([...animals], response.data)
-                getAnimal()
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }, [getAnimal, animals])
-
     useEffect(() => {
         getAnimal()
-    }, [getAnimal])
+    }, [animals])
+
     return !isVisible ? null : (
         <div onLoad={getAnimal} className="modal">
             <div className="modal-dialog" onClick={e => e.stopPropagation()}>
@@ -96,128 +75,88 @@ function CreateAnimal({isVisible = false, title, onClose}) {
                     <div className="modal-content">
                         <form className="form form-login" onSubmit={e => e.preventDefault()}>
                             <div className="row">
-                                <div className="input-field col s12">
-                                    <span className="radio-label">Вид:</span>
-                                    <div className="radio-buttons">
-                                        <p>
-                                            <label>
-                                                <input value="cat" className="validate"
-                                                       onChange={e => setKind(e.target.value)} name="kind"
-                                                       type="radio"/>
-                                                <span>Кот</span>
-                                            </label>
-                                        </p>
-                                        <p>
-                                            <label>
-                                                <input value="dog" className="validate"
-                                                       onChange={e => setKind(e.target.value)} name="kind"
-                                                       type="radio"/>
-                                                <span>Собака</span>
-                                            </label>
-                                        </p>
-                                    </div>
-                                </div>
 
-                                <div className="input-field col s12">
-                                    <span className="radio-label">Пол:</span>
-                                    <div className="radio-buttons">
-                                        <p>
-                                            <label>
-                                                <input value={0} className="validate"
-                                                       onChange={e => setGender(e.target.value)} name="gender"
-                                                       type="radio"/>
-                                                <span>Девочка</span>
-                                            </label>
-                                        </p>
-                                        <p>
-                                            <label>
-                                                <input value={1} className="validate"
-                                                       onChange={e => setGender(e.target.value)} name="gender"
-                                                       type="radio"/>
-                                                <span>Мальчик</span>
-                                            </label>
-                                        </p>
-                                    </div>
-                                </div>
+                                <MyRadio
+                                    labelName="Вид:"
+                                    setValue={setKind}
+                                    firstValue="cat"
+                                    secondValue="dog"
+                                    firstText="Кот"
+                                    secondText="Собака"
+                                    type="radio"
+                                    name="kind"
+                                />
 
-                                <div className="input-field col s12">
-                                    <span className="radio-label">Наличие вакцинаций:</span>
-                                    <div className="radio-buttons">
-                                        <p>
-                                            <label>
-                                                <input value={true} className="validate"
-                                                       onChange={e => setVaccinations(e.target.value)}
-                                                       name="vaccinations" type="radio"/>
-                                                <span>Есть</span>
-                                            </label>
-                                        </p>
-                                        <p>
-                                            <label>
-                                                <input value={false} className="validate"
-                                                       onChange={e => setVaccinations(e.target.value)}
-                                                       name="vaccinations" type="radio"/>
-                                                <span>Нет</span>
-                                            </label>
-                                        </p>
-                                    </div>
-                                </div>
+                                <MyRadio
+                                    labelName="Пол:"
+                                    setValue={setGender}
+                                    firstValue={0}
+                                    secondValue={1}
+                                    firstText="Девочка"
+                                    secondText="Мальчик"
+                                    type="radio"
+                                    name="gender"
+                                />
 
-                                <div className="input-field col s12">
-                                    <input
-                                        type="text"
-                                        id="name"
-                                        name="input-name"
-                                        className="validate"
-                                        value={name}
-                                        onChange={e => setName(e.target.value)}
-                                    />
-                                    <label htmlFor="input-name">Имя:</label>
-                                </div>
+                                <MyRadio
+                                    labelName="Наличие вакцинаций:"
+                                    setValue={setVaccinations}
+                                    firstValue={true}
+                                    secondValue={false}
+                                    firstText="Есть"
+                                    secondText="Нет"
+                                    type="radio"
+                                    name="vaccinations"
+                                />
 
-                                <div className="input-field col s12">
-                                    <input
-                                        type="text"
-                                        id="age"
-                                        name="input-age"
-                                        className="validate"
-                                        value={age}
-                                        onChange={e => setAge(e.target.value)}
-                                    />
-                                    <label htmlFor="input">Возраст:</label>
-                                </div>
+                                <MyInput
+                                    type="text"
+                                    id="name"
+                                    name="input-name"
+                                    className="validate"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    labelName="Имя:"
+                                />
 
-                                <div className="input-field col s12">
-                                    <input
-                                        type="text"
-                                        id="text"
-                                        name="input-text"
-                                        className="validate"
-                                        value={text}
-                                        onChange={e => setText(e.target.value)}
-                                    />
-                                    <label htmlFor="input-text">Описание:</label>
-                                </div>
+                                <MyInput
+                                    type="text"
+                                    id="age"
+                                    name="input-age"
+                                    className="validate"
+                                    value={age}
+                                    onChange={e => setAge(e.target.value)}
+                                    labelName="Возраст:"
+                                />
 
-                                <div className="input-field col s12">
-                                    <input
-                                        type="text"
-                                        id="img"
-                                        name="input-img"
-                                        className="validate"
-                                        value={img}
-                                        onChange={e => setImg(e.target.value)}
-                                    />
-                                    <label htmlFor="input-img">Ссылка на изображение:</label>
-                                </div>
+                                <MyInput
+                                    type="text"
+                                    id="text"
+                                    name="input-text"
+                                    className="validate"
+                                    value={text}
+                                    onChange={e => setText(e.target.value)}
+                                    labelName="Описание:"
+                                />
+
+                                <MyInput
+                                    type="text"
+                                    id="img"
+                                    name="input-img"
+                                    className="validate"
+                                    value={img}
+                                    onChange={e => setImg(e.target.value)}
+                                    labelName="Ссылка на изображение:"
+                                />
                             </div>
                         </form>
                     </div>
                 </div>
                 <div className="modal-footer">
                     <div className="row">
-                        <button onClick={createAnimal} className="waves-effect add waves-light btn orange">
+                        <MyButton onClick={createAnimal} className="waves-effect add waves-light btn orange">
                             Добавить
-                        </button>
+                        </MyButton>
                         <button onClick={onClose} className="waves-effect waves-light btn red">Отмена</button>
                     </div>
                 </div>
