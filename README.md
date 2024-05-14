@@ -1,6 +1,8 @@
 # any-friendly
 Мой проект для поиска питомцев. В нем предусмотрена возможность регистрации как волонтера, так и как человека, который ищет себе пушистого друга. Можно добавлять животных к себе в "Избранное". Можно напрямую связываться с волонтером по оставленным контактам при регистрации или создания объявления
-Stack: Mongodb, Express, React, Node
+
+# Stack
+ Mongodb, Express, React, Node
 
 # Screenshots
 ![Image alt](https://github.com/rubenshteyn/any-friendly-mern/blob/main/client/src/media/likes.png)
